@@ -8,6 +8,15 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
+  // Garante que a classe 'dark' está no <html> ao trocar o tema
+  React.useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDark]);
+
   return (
     <motion.button
       onClick={toggleTheme}
