@@ -12,7 +12,7 @@ export default function DashboardLayout() {
 
   return (
     <div className={`flex h-screen relative 
-      ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}
+      ${theme === 'dark' ? 'bg-sidebar-dark' : 'bg-sidebar'}`}
     >
       <div className={`transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-0'}`}>
         <Sidebar isOpen={isSidebarOpen} />
@@ -30,10 +30,12 @@ export default function DashboardLayout() {
         {isSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
       </button>
 
-      <div className={`flex-1 overflow-auto p-8
-        ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50'}`}
+      <div className={`flex-1 overflow-auto
+        ${theme === 'dark' ? 'bg-background-dark' : 'bg-background'}`}
       >
-        <Dashboard />
+        <main className="p-8">
+          <Dashboard />
+        </main>
       </div>
     </div>
   );

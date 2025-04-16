@@ -8,7 +8,6 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
 
-  // Garante que a classe 'dark' está no <html> ao trocar o tema
   React.useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark');
@@ -38,7 +37,6 @@ export function ThemeToggle() {
       whileTap={{ scale: 0.95 }}
     >
       <motion.div className="absolute inset-0 p-1">
-        {/* Ícone do Sol */}
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           className={`h-6 w-6 absolute right-1 transition-opacity ${
@@ -61,7 +59,6 @@ export function ThemeToggle() {
           </g>
         </motion.svg>
 
-        {/* Ícone da Lua */}
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           className={`h-6 w-6 absolute left-1 transition-opacity ${

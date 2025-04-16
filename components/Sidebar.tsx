@@ -5,6 +5,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { useTheme } from './ThemeProvider';
 import { PencilIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { Modal } from './Modal';
+import Image from 'next/image';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -79,23 +80,22 @@ export default function Sidebar({ isOpen }: SidebarProps) {
         : 'bg-white/90 border-gray-200 text-gray-700'
       }`}
     >
-      {/* Perfil do Usuário */}
       <div className="flex flex-col items-center mb-8">
         <div className="relative group">
-          {/* Avatar */}
           <div className="w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center overflow-hidden">
             {profilePhoto ? (
-              <img 
+              <Image 
                 src={profilePhoto} 
                 alt="Foto de perfil" 
                 className="w-full h-full object-cover"
+                width={80} 
+                height={80} 
               />
             ) : (
               <UserCircleIcon className="w-20 h-20 text-gray-400 dark:text-gray-500" />
             )}
           </div>
           
-          {/* Botão de editar foto */}
           <button 
             className={`absolute inset-0 flex items-center justify-center bg-black/50 rounded-full 
               opacity-0 group-hover:opacity-100 transition-opacity`}
@@ -105,7 +105,6 @@ export default function Sidebar({ isOpen }: SidebarProps) {
           </button>
         </div>
 
-        {/* Nome do usuário */}
         <div className="mt-3 relative group">
           <h3 className="text-lg font-medium">{userName}</h3>
           <button
@@ -118,7 +117,6 @@ export default function Sidebar({ isOpen }: SidebarProps) {
         </div>
       </div>
 
-      {/* Menu Items */}
       <div className="flex-1 space-y-4">
         {menuItems.map(item => (
           <a
@@ -135,14 +133,12 @@ export default function Sidebar({ isOpen }: SidebarProps) {
         ))}
       </div>
       
-      {/* Theme Toggle */}
       <div className={`pt-4 border-t flex justify-center
         ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}
       >
         <ThemeToggle />
       </div>
 
-      {/* Modal de edição de foto */}
       <Modal
         isOpen={showEditPhoto}
         onClose={() => setShowEditPhoto(false)}
@@ -164,7 +160,6 @@ export default function Sidebar({ isOpen }: SidebarProps) {
         />
       </Modal>
 
-      {/* Modal de edição de nome */}
       <Modal
         isOpen={showEditName}
         onClose={() => setShowEditName(false)}
