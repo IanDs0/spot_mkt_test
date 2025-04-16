@@ -1,12 +1,17 @@
 import { ResponsiveContainer, LineChart as RechartsLineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { IconType } from 'react-icons';
+
+interface LineConfig {
+  dataKey: string;
+  color: string;
+  name: string;
+  icon?: IconType;
+  gradient?: string[];
+}
 
 interface LineChartProps {
-  data: { [key: string]: string | number }[];
-  lines: {
-    dataKey: string;
-    color: string;
-    name: string;
-  }[];
+  data: Array<Record<string, string | number>>;
+  lines: LineConfig[];
   xAxisKey?: string;
 }
 

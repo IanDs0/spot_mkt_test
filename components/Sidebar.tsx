@@ -112,7 +112,11 @@ export default function Sidebar({ isOpen }: SidebarProps) {
               opacity-0 group-hover:opacity-100 transition-opacity`}
             onClick={() => setShowEditName(true)}
           >
-            <PencilIcon className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300" />
+            <PencilIcon className={`w-4 h-4 ${
+              theme === 'dark' 
+                ? 'text-gray-500 hover:text-gray-300' 
+                : 'text-gray-400 hover:text-gray-600'
+            }`} />
           </button>
         </div>
       </div>

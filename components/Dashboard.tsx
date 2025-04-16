@@ -4,13 +4,52 @@ import { LineChart } from './charts/LineChart';
 import { BarChart } from './charts/BarChart';
 import { PieChart } from './charts/PieChart';
 import { useTheme } from './ThemeProvider';
+import { 
+  FaFacebook, 
+  FaGoogle, 
+  FaLinkedin 
+} from 'react-icons/fa';
+import { 
+  MdTrendingUp, 
+  MdPaid 
+} from 'react-icons/md';
 
-const chartColors = {
-  facebook: { light: '#4267B2', dark: '#5C7CBD' },
-  google: { light: '#4285F4', dark: '#5E97F6' },
-  linkedin: { light: '#0A66C2', dark: '#2D7DD2' },
-  organic: { light: '#34A853', dark: '#4CAF50' },
-  paid: { light: '#EA4335', dark: '#EF5350' }
+export const chartColors = {
+  facebook: { 
+    light: '#1877F2',
+    dark: '#1877F2',
+    icon: FaFacebook,
+    gradientLight: ['#1877F2', '#199EFF'],
+    gradientDark: ['#1877F2', '#5C7CBD']
+  },
+  google: { 
+    light: '#f9be0c',
+    dark: '#f9be0c',
+    icon: FaGoogle,
+    gradientLight: ['#f9be0c', '#34A853'],
+    gradientDark: ['#f9be0c', '#4CAF50']
+  },
+  linkedin: { 
+    light: '#cc2761',
+    dark: '#cc2761',
+    icon: FaLinkedin,
+    gradientLight: ['#cc2761', '#00A0DC'],
+    gradientDark: ['#cc2761', '#38A3E1']
+  },
+  organic: { 
+    light: '#34A853',
+    dark: '#4CAF50',
+    icon: MdTrendingUp,
+    gradientLight: ['#34A853', '#41C363'],
+    gradientDark: ['#4CAF50', '#66BB6A']
+  },
+  paid: { 
+    light: '#EA4335',
+    dark: '#EF5350',
+    icon: MdPaid,
+    gradientLight: ['#EA4335', '#FF5252'],
+    gradientDark: ['#EF5350', '#FF6B6B']
+  }
 };
 
 const lineChartData = [
@@ -81,13 +120,17 @@ export default function Dashboard() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
+  const getLineChartConfig = (dataKey: string) => ({
+    dataKey,
+    color: chartColors[dataKey as keyof typeof chartColors][isDark ? 'dark' : 'light'],
+    name: dataKey.charAt(0).toUpperCase() + dataKey.slice(1),
+    icon: chartColors[dataKey as keyof typeof chartColors].icon,
+    gradient: chartColors[dataKey as keyof typeof chartColors][isDark ? 'gradientDark' : 'gradientLight']
+  });
+
   return (
     <div className={`space-y-8 ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
-      <h1 className={`text-2xl font-bold
-        ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}
-      >
-        Dashboard
-      </h1>
+      
 
       {sections.map(section => (
         <section key={section.id} className={`rounded-lg p-6 shadow-sm
@@ -127,9 +170,9 @@ export default function Dashboard() {
             <LineChart
               data={lineChartData}
               lines={[
-                { dataKey: 'facebook', color: chartColors.facebook[isDark ? 'dark' : 'light'], name: 'Facebook' },
-                { dataKey: 'google', color: chartColors.google[isDark ? 'dark' : 'light'], name: 'Google' },
-                { dataKey: 'linkedin', color: chartColors.linkedin[isDark ? 'dark' : 'light'], name: 'LinkedIn' },
+                getLineChartConfig('facebook'),
+                getLineChartConfig('google'),
+                getLineChartConfig('linkedin'),
               ]}
             />
           </div>
@@ -142,8 +185,20 @@ export default function Dashboard() {
             <BarChart
               data={barChartData}
               bars={[
-                { dataKey: 'organic', color: chartColors.organic[isDark ? 'dark' : 'light'], name: 'Orgânico' },
-                { dataKey: 'paid', color: chartColors.paid[isDark ? 'dark' : 'light'], name: 'Pago' },
+                {
+                  dataKey: 'organic',
+                  color: chartColors.organic[isDark ? 'dark' : 'light'],
+                  name: 'Orgânico',
+                  icon: chartColors.organic.icon,
+                  gradient: chartColors.organic[isDark ? 'gradientDark' : 'gradientLight']
+                },
+                {
+                  dataKey: 'paid',
+                  color: chartColors.paid[isDark ? 'dark' : 'light'],
+                  name: 'Pago',
+                  icon: chartColors.paid.icon,
+                  gradient: chartColors.paid[isDark ? 'gradientDark' : 'gradientLight']
+                },
               ]}
             />
           </div>

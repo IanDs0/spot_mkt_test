@@ -1,12 +1,17 @@
 import { ResponsiveContainer, BarChart as RechartsBarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { IconType } from 'react-icons';
+
+interface BarConfig {
+  dataKey: string;
+  color: string;
+  name: string;
+  icon?: IconType;
+  gradient?: string[];
+}
 
 interface BarChartProps {
-  data: { [key: string]: string | number }[];
-  bars: {
-    dataKey: string;
-    color: string;
-    name: string;
-  }[];
+  data: Array<Record<string, string | number>>;
+  bars: BarConfig[];
   xAxisKey?: string;
 }
 

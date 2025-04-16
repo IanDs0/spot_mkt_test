@@ -3,9 +3,9 @@
 import React from 'react';
 import { ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { DonutChart } from './DonutChart';
 import { PieChart } from './charts/PieChart';
 import { useTheme } from './ThemeProvider';
+import { chartColors } from './Dashboard';
 
 interface Allocation {
   label: string;
@@ -21,7 +21,7 @@ interface MetricCardProps {
   allocations?: Allocation[];
 }
 
-export function MetricCard({ title, value, previousValue, change, allocations }: MetricCardProps) {
+export function MetricCard({ title, value, change, allocations }: MetricCardProps) {
   const { theme } = useTheme();
 
   const getTrendColor = (change?: number) => {
@@ -40,11 +40,14 @@ export function MetricCard({ title, value, previousValue, change, allocations }:
     );
   };
 
-  const pieData = allocations?.map((item) => ({
-    name: item.label,
-    value: item.value,
-    color: getRandomColor(item.label)
-  })) || [];
+  const pieData = allocations?.map((item) => {
+    const platform = item.label.toLowerCase().split(' ')[0];
+    return {
+      name: item.label,
+      value: item.value,
+      color: chartColors[platform as keyof typeof chartColors][theme === 'dark' ? 'dark' : 'light']
+    };
+  }) || [];
 
   return (
     <motion.div
@@ -79,7 +82,7 @@ export function MetricCard({ title, value, previousValue, change, allocations }:
       {allocations && (
         <div className="mt-4 space-y-3">
           <div className="flex justify-center mb-4">
-            <PieChart data={pieData} theme={theme} />
+            <PieChart data={pieData} />
           </div>
           {allocations.map((item, index) => (
             <div key={index}>
@@ -103,9 +106,10 @@ export function MetricCard({ title, value, previousValue, change, allocations }:
                 transition={{ duration: 0.8 }}
               >
                 <motion.div
-                  className={theme === 'dark' 
-                    ? 'h-full bg-blue-500'
-                    : 'h-full bg-blue-600'}
+                  className="h-full"
+                  style={{ 
+                    backgroundColor: pieData.find(d => d.name === item.label)?.color 
+                  }}
                   initial={{ width: 0 }}
                   animate={{ width: `${item.value}%` }}
                   transition={{ duration: 0.8, delay: 0.2 }}
@@ -117,14 +121,4 @@ export function MetricCard({ title, value, previousValue, change, allocations }:
       )}
     </motion.div>
   );
-}
-
-// Função auxiliar para gerar cores com base no label
-function getRandomColor(label: string): string {
-  const colors = {
-    'Facebook Ads': '#4267B2',
-    'Google Ads': '#4285F4',
-    'LinkedIn Ads': '#0A66C2',
-  };
-  return colors[label as keyof typeof colors] || '#' + Math.floor(Math.random()*16777215).toString(16);
 }
