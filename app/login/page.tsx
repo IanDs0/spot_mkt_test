@@ -18,6 +18,7 @@ export default function Login() {
 
     if (username === 'spotmkt' && password === '123') {
       document.cookie = 'auth=true; path=/';
+      localStorage.setItem('userName', 'Usuário SpotMKT');
       router.push('/');
       router.refresh();
     } else {
